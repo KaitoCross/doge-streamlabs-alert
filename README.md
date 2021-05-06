@@ -31,4 +31,4 @@ Once you have done that, start the donation message relay server by executing se
 
 Once you have started it. open ``http://localhost:42069/`` in your web browser and click on the Dogecoin. It will lead you to the Streamlabs webpage, where you need to give it the permissions to access your Streamlabs data. Once you have done that, you'll get redirected to a white page that just says Success.
 
-Now, restart your Dogecoin Core wallet, and enjoy notifications for DOGE donations showing up in the Streamlabs notification box!
+Now, restart your Dogecoin Core wallet, and enjoy notifications for DOGE donations showing up in the default Streamlabs notification box/area!
