@@ -18,6 +18,8 @@ walletnotify=/full/path/to/notifywallet.py %s
 ```
 You need to replace `someusername` with a username of your liking and `supersafepassword` with an actually safe and unique password. You also need to replace `/full/path/to/` with the actual path to the downloaded `notifywallet.py`. If you are on Windows, you probably have to add the path to the python3 executable in front of this (with a space to seperate it from the rest of the command)
 
+You need to put the same username and password into the `rpccreds.json` file in the `data` folder. Use `rpccreds-exampke.json` as an example as to how the file has to look like.
+
 ### Streamlabs
 
 Log into Streamlabs and follow the [instructions on their page](https://dev.streamlabs.com/docs/register-your-application). 
