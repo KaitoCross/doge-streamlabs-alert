@@ -1,6 +1,6 @@
 # doge-streamlabs-alert
-Creates Streamlabs alert for incoming DOGECOIN donations (to locally running Dogecoin Core Wallet)
-This has not been tested well enough! Only tested some stuff on Linux so far.
+Creates Streamlabs alert for incoming DOGECOIN donations (to locally running Dogecoin Core Wallet)  
+This has not been tested well enough! Only tested some stuff on Linux so far. Use at your own risk!
 
 ## How to set up
 ### Python3
