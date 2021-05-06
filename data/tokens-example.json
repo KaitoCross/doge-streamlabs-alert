@@ -1,0 +1,14 @@
+{
+    "grant_type": "authorization_code",
+    "client_id": "client_id",
+    "client_secret": "client_secret",
+    "redirect_uri": "http://localhost:42069/oauth/streamlabs",
+    "code": "auto_generated_during_authorization",
+    "tokens": {
+        "access_token": "auto_generated_during_authorization",
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "refresh_token": "auto_generated_during_authorization",
+        "expires_at": 0
+    }
+}
