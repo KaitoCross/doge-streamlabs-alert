@@ -5,7 +5,7 @@ from jsonrpcclient.clients.http_client import HTTPClient
 from jsonrpcclient.requests import Request
 
 if __name__ =='__main__':
-    jsonobject = open(file="rpccreds.json", mode='r', encoding="utf-8")
+    jsonobject = open(file="data/rpccreds.json", mode='r', encoding="utf-8")
     creds = json.load(jsonobject)
     jsonobject.close()
     parser = argparse.ArgumentParser()

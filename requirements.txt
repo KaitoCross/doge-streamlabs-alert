@@ -1,0 +1,4 @@
+requests==2.25.1
+jsonrpcclient==3.3.6
+CherryPy==18.6.0
+requests_oauthlib==1.3.0
