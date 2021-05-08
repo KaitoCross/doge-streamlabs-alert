@@ -24,7 +24,7 @@ You need to put the same username and password into the `rpccreds.json` file in 
 
 Log into Streamlabs and follow the [instructions on their page](https://dev.streamlabs.com/docs/register-your-application). 
 Please copy the Client ID and Client Secret that are generated in the process into the `tokens.json` file in the `data` folder.
-If you dont have a `tokens.json` file there, rename the `tokens-example.json` file to `tokens.json` and put the information into there.
+If you dont have a `tokens.json` file there, rename the `tokens-example.json` file to `tokens.json` and put the information into there. If the app has not been approved by Streamlabs, it can only send 5 alerts per minute, which is probably the case with this.
 
 Once you have done that, start the donation message relay server by executing server.py using python on your command line/console  
 `python3 /full/path/to/downloaded/files/server.py`
