@@ -16,11 +16,12 @@ from .database import DB_cl
 
 class Application_cl(object):
     exposed = True  # gilt für alle Methoden
-    def __init__(self,db):
+    def __init__(self,db, alertsender):
         #self.sem = Semaphore()
         self.db_o = db # DB_cl(self.sem)
         self.auth_tokens = {}
-        self.load_token()
+        self.tokens_present = self.load_token()
+        self.alert_sender = alertsender
 
 
     def load_token(self):
@@ -35,14 +36,6 @@ class Application_cl(object):
         else:
             return False
 
-    def save_token(self,new_t):
-        self.tokens["tokens"] = new_t
-        self.auth_tokens = new_t
-        self.extra = {'client_id': self.tokens['client_id'],
-                      'client_secret': self.tokens['client_secret'],
-                      'redirect_uri': self.tokens['redirect_uri']}
-        self.db_o.rewrite("tokens.json",self.tokens)
-
     def GET(self, txid=None):
         retVal_s = "EMPTY"
         return retVal_s
@@ -51,7 +44,6 @@ class Application_cl(object):
     @cherrypy.tools.json_in()
     def POST(self):
         input_json = cherrypy.request.json
-        #print(input_json)
         querystring = {
             "name": "anonymous DOGE hodler",
             "message": html.escape(input_json["comment"],True),
@@ -59,9 +51,9 @@ class Application_cl(object):
             "amount": input_json["amount"],
             "currency": "DOGE",
             }
-        if not self.auth_tokens:
-            loaded = self.load_token()
-            if not loaded:
+        if not self.tokens_present:
+            self.tokens_present = self.load_token()
+            if not self.tokens_present:
                 raise cherrypy.HTTPError(500,"Not logged into Streamlabs")
         topmsg = "An awesome DOGE hodler donated " + str(querystring["amount"]) + " Dogecoins!"
         bottommsg = querystring["message"]
@@ -69,9 +61,5 @@ class Application_cl(object):
                    "message": topmsg}
         if bottommsg:
             alert_d["usermessage"] = bottommsg
-        oauth_session = OAuth2Session(self.tokens["client_id"], token=self.auth_tokens, auto_refresh_kwargs=self.extra,
-                                      auto_refresh_url = "https://streamlabs.com/api/v1.0/token", token_updater=self.save_token)
-        res = oauth_session.post("https://streamlabs.com/api/v1.0/alerts", params=alert_d)
-        #print(alert_d)
-        #print(res.text)
+        self.alert_sender.append_msg(alert_d)
 # EOF

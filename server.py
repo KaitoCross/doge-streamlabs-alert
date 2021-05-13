@@ -2,16 +2,17 @@
 import os
 import sys
 import cherrypy
-from app import donation, oauth, auth_p, database
-from threading import Semaphore
+from app import donation, oauth, auth_p, database, alert_sender
+from threading import Semaphore, Thread
 import os
 file_lock = Semaphore()
 global_db = database.DB_cl(file_lock)
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+alertSender = alert_sender.alert_sender(global_db)
+alertThread = Thread(target=alertSender.run,group=None)
+alertThread.start()
 
-#--------------------------------------
 def main():
-#--------------------------------------
    # Get current directory
    current_dir=''
    cherrypy.Application.current_dir=''
@@ -34,12 +35,12 @@ def main():
 
    # 2. Eintrag: Method-Dispatcher für die "Applikation" "app" vereinbaren
    cherrypy.tree.mount(
-      donation.Application_cl(global_db),
+      donation.Application_cl(global_db,alertSender),
       '/donation',
       {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
    )
    cherrypy.tree.mount(
-      oauth.oauth(global_db),
+      oauth.oauth(global_db,alertSender),
       '/oauth/streamlabs',
       {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
    )
@@ -53,8 +54,7 @@ def main():
    cherrypy.engine.start()
    cherrypy.engine.block()
 
-#--------------------------------------
+
 if __name__ == '__main__':
-#--------------------------------------
    main()
 # EOF

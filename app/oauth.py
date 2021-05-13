@@ -16,7 +16,7 @@ from requests_oauthlib import OAuth2Session
 class oauth(object):
     exposed = True  # gilt für alle Methoden
 
-    def __init__(self,db):
+    def __init__(self,db, alertSender):
         #self.sem = Semaphore()
         self.db_o = db #DB_cl(self.sem)
         self.api_base = "https://streamlabs.com/api/v1.0"
@@ -32,6 +32,7 @@ class oauth(object):
                  'donations.read',
                  'alerts.create']
         self.oauth = OAuth2Session(self.auth_dict["client_id"], redirect_uri=self.auth_dict["redirect_uri"], scope=self.scope)
+        self.alert_sender = alertSender
 
     # -------------------------------------------------------
     def GET(self, code=None, error=None, error_description = None, state = None):
@@ -49,5 +50,6 @@ class oauth(object):
             client_secret=self.auth_dict["client_secret"])
             print(self.auth_dict)
             self.db_o.rewrite("tokens.json",self.auth_dict)
+            self.alert_sender.load_creds()
 
         return retVal_s

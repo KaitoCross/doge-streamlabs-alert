@@ -4,6 +4,7 @@
     "client_secret": "client_secret",
     "redirect_uri": "http://localhost:42069/oauth/streamlabs",
     "code": "auto_generated_during_authorization",
+    "requests_per_min": 5,
     "tokens": {
         "access_token": "auto_generated_during_authorization",
         "token_type": "Bearer",
