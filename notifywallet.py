@@ -14,7 +14,7 @@ if __name__ =='__main__':
     doge_requests = Bitcoin(creds["rpcuser"], creds["rpcpass"], "127.0.0.1", "22555")
     response = None
     response = doge_requests.gettransaction(txid)
-    if response:
+    if response and not response["error"]:
         if response["confirmations"] >= 1:
             cleaned_tx = {"txid":response["txid"],
                           "amount": response["amount"],
