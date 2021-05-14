@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 import argparse, requests, jsonrpcclient, json
-from jsonrpcclient import request
-from jsonrpcclient.clients.http_client import HTTPClient
-from jsonrpcclient.requests import Request
+from bitcoincli import Bitcoin
 
 if __name__ =='__main__':
     jsonobject = open(file="data/rpccreds.json", mode='r', encoding="utf-8")
@@ -13,15 +11,9 @@ if __name__ =='__main__':
                         help='dogecoin transaction ID')
     args = parser.parse_args()
     txid = args.txid
-    client = HTTPClient("http://localhost:22555")
-    client.session.auth = (creds["rpcuser"], creds["rpcpass"])
-    rq = Request("gettransaction", txid=txid)
+    doge_requests = Bitcoin(creds["rpcuser"], creds["rpcpass"], "127.0.0.1", "22555")
     response = None
-    try:
-        response = client.send(rq)
-    except jsonrpcclient.exceptions.ReceivedNon2xxResponseError as res_err:
-        print(res_err)
-    #print(response)
+    response = doge_requests.gettransaction(txid)
     if response:
         if response["confirmations"] >= 1:
             cleaned_tx = {"txid":response["txid"],
@@ -39,4 +31,4 @@ if __name__ =='__main__':
                       "timereceived": 1,
                       "comment": "Fake transaction - DOGE to the MOON anyways!"}
         requests.post("http://localhost:42069/donation", json=cleaned_tx)
-    #print(cleaned_tx)
+    print(cleaned_tx)
